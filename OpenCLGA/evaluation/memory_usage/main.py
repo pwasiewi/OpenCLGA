@@ -128,7 +128,7 @@ def evaluate(ctx, prog, queue, kernal_func_name, total_work_items, work_items_pe
                     min_time_lws = l_wi_size
 
             if outs:
-                cl.enqueue_read_buffer(queue, outs[1], outs[0])
+                cl.enqueue_copy(queue, outs[1], outs[0])
     print('**************************************** ')
     print(outs[0])
     print(' Best Global WI Info : {}'.format(min_time_gws))

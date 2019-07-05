@@ -94,9 +94,9 @@ class ShufflerChromosome:
         cross_map = numpy.zeros(total_dna_size, dtype=numpy.int32)
         ratios = numpy.zeros(population, dtype=numpy.float32)
         # read data from cl
-        cl.enqueue_read_buffer(queue, self.__dev_ratios, ratios)
-        cl.enqueue_read_buffer(queue, self.__dev_other_chromosomes, other_chromosomes)
-        cl.enqueue_read_buffer(queue, self.__dev_cross_map, cross_map).wait()
+        cl.enqueue_copy(queue, self.__dev_ratios, ratios)
+        cl.enqueue_copy(queue, self.__dev_other_chromosomes, other_chromosomes)
+        cl.enqueue_copy(queue, self.__dev_cross_map, cross_map).wait()
         # save all of them
         data['other_chromosomes'] = other_chromosomes
         data['cross_map'] = cross_map

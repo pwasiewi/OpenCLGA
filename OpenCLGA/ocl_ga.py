@@ -546,12 +546,12 @@ class OpenCLGA():
             if self._paused:
                 self.__generation_index = i + 1
                 self.__generation_time_diff = time.time() - start_time
-                cl.enqueue_read_buffer(self.__queue, self.__dev_fitnesses, self.__fitnesses)
-                cl.enqueue_read_buffer(self.__queue, self.__dev_chromosomes, self.__np_chromosomes).wait()
+                cl.enqueue_copy(self.__queue, self.__dev_fitnesses, self.__fitnesses)
+                cl.enqueue_copy(self.__queue, self.__dev_chromosomes, self.__np_chromosomes).wait()
                 break
             if self._forceStop:
-                cl.enqueue_read_buffer(self.__queue, self.__dev_fitnesses, self.__fitnesses)
-                cl.enqueue_read_buffer(self.__queue, self.__dev_chromosomes, self.__np_chromosomes).wait()
+                cl.enqueue_copy(self.__queue, self.__dev_fitnesses, self.__fitnesses)
+                cl.enqueue_copy(self.__queue, self.__dev_chromosomes, self.__np_chromosomes).wait()
                 break
 
     def __evolve_by_time(self, max_time, prob_mutate, prob_crossover):
@@ -566,12 +566,12 @@ class OpenCLGA():
 
             if self._paused:
                 self.__generation_time_diff = time.time() - start_time
-                cl.enqueue_read_buffer(self.__queue, self.__dev_fitnesses, self.__fitnesses)
-                cl.enqueue_read_buffer(self.__queue, self.__dev_chromosomes, self.__np_chromosomes).wait()
+                cl.enqueue_copy(self.__queue, self.__dev_fitnesses, self.__fitnesses)
+                cl.enqueue_copy(self.__queue, self.__dev_chromosomes, self.__np_chromosomes).wait()
                 break
             if self._forceStop:
-                cl.enqueue_read_buffer(self.__queue, self.__dev_fitnesses, self.__fitnesses)
-                cl.enqueue_read_buffer(self.__queue, self.__dev_chromosomes, self.__np_chromosomes).wait()
+                cl.enqueue_copy(self.__queue, self.__dev_fitnesses, self.__fitnesses)
+                cl.enqueue_copy(self.__queue, self.__dev_chromosomes, self.__np_chromosomes).wait()
                 break
 
     def _start_evolution(self, prob_mutate, prob_crossover):
@@ -585,8 +585,8 @@ class OpenCLGA():
         if self._paused:
             return
 
-        cl.enqueue_read_buffer(self.__queue, self.__dev_fitnesses, self.__fitnesses)
-        cl.enqueue_read_buffer(self.__queue, self.__dev_chromosomes, self.__np_chromosomes).wait()
+        cl.enqueue_copy(self.__queue, self.__dev_fitnesses, self.__fitnesses)
+        cl.enqueue_copy(self.__queue, self.__dev_chromosomes, self.__np_chromosomes).wait()
 
         total_time_consumption = time.time() - generation_start + self.__generation_time_diff
         avg_time_per_gen = total_time_consumption / float(len(self.__dictStatistics))
